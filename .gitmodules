@@ -1,0 +1,3 @@
+[submodule "packages/jelly"]
+	path = packages/jelly
+	url = https://github.com/ryuz/jelly.git
