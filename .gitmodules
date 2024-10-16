@@ -1,0 +1,6 @@
+[submodule "packages/jelly"]
+	path = packages/jelly
+	url = https://github.com/ryuz/jelly.git
+[submodule "packages/fpga_driver"]
+	path = packages/fpga_driver
+	url = https://github.com/bright-org/fpga_driver.git
