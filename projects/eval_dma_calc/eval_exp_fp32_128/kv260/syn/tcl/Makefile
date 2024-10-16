@@ -21,7 +21,7 @@ else
 BOARD_ADDRESS ?= kria
 endif
 
-BOARD_WORK_DIR ?= git-work/elixirchip_saving
+BOARD_WORK_DIR ?= git-work/fpga_x_elixir
 
 BIT_FILE = $(PRJ_NAME).runs/impl_1/$(TOP_MODULE).bit
 
@@ -41,15 +41,10 @@ export HLS_IP
 
 # sources
 SOURCES  = $(PRJ_DIR)/kv260/rtl/eval_exp_fp32_128_kv260.sv
+SOURCES += $(PRJ_DIR)/rtl/eval_exp_fp32_128_main.sv
 SOURCES += $(PRJ_DIR)/rtl/dma_read.sv
 SOURCES += $(PRJ_DIR)/rtl/dma_write.sv
 SOURCES += $(PRJ_DIR)/rtl/calc_exp_f32.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_spu_ctl_valid.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_spu_op_nop.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_spu_op_add.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_spu_op_mul.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_xilinx_flipflops.sv
-#SOURCES += $(SPU_DIR)/rtl/elixirchip_es1_xilinx_carry8.sv
 SOURCES += $(JELLY_RTL_SOURCES)
 export SOURCES
 
