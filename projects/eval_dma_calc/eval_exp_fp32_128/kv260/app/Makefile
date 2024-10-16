@@ -1,5 +1,5 @@
 
-TARGET    = eval_exp_fp32_128_kv260.out
+
 DT_NAME   = eval_exp_fp32_128_kv260
 BIT_NAME  = eval_exp_fp32_128_kv260
 
@@ -13,32 +13,20 @@ BIN_FILE  = $(BIT_FILE).bin
 FIRMWARE_PATH = /lib/firmware
 DEVTREE_PATH  = /configfs/device-tree
 
-CFLAGS  += -Wall -g -O3 -I../../../../../packages/jelly/include
-LDFLAGS += -g
-
-RUN_OPT ?=
-
-OBJS = main.o
-
+DRIVER_NAME = dmacalc
+DRIVER_PATH = ../../../../../packages/fpga_driver/projects/eval_dma_calc
 
 .PHONY: all
-all: $(TARGET) $(DTBO_FILE) $(BIN_FILE) build_module
+all: $(DTBO_FILE) $(BIN_FILE) build_driver
 
 .PHONY: clean
 clean:
-	rm -rf $(TARGET) $(OBJS) $(DTBO_FILE) $(BIN_FILE)
+	rm -rf $(DTBO_FILE) $(BIN_FILE)
 
-.PHONY: run
-run: $(TARGET) load load_module
-	./$(TARGET) $(RUN_OPT)
-	sudo dmesg | tail -n 50
+.PHONY: run_cpp
+run_cpp:
+	make -C cpp run
 
-
-$(TARGET): $(OBJS)
-	g++ -o $(TARGET) $(OBJS) $(LDFLAGS)
-
-%.o : %.cpp
-	g++ $(CFLAGS) -c $< -o $@
 
 $(DTBO_FILE): $(DTS_FILE)
 	dtc -I dts -O dtb -o $(DTBO_FILE) $(DTS_FILE)
@@ -51,18 +39,18 @@ $(DEVTREE_PATH):
 	sudo mount -t configfs configfs /configfs
 
 
-.PHONY: build_module
-build_module:
-	make -C _calcdma
+.PHONY: build_driver
+build_driver:
+	make -C $(DRIVER_PATH)
 
-.PHONY: load_module
-load_module: unload_module build_module
-	sudo insmod _calcdma/calcdma.ko
-	sudo chmod 666 /dev/elixirchip*
+.PHONY: load_driver
+load_driver: unload_driver build_driver
+	sudo insmod $(DRIVER_PATH)/$(DRIVER_NAME).ko
+	sudo chmod 666 /dev/fpga-*
 
-.PHONY: unload_module
-unload_module:
-	-sudo rmmod _calcdma/calcdma.ko
+.PHONY: unload_driver
+unload_driver:
+	-sudo rmmod $(DRIVER_PATH)/$(DRIVER_NAME).ko
 
 
 .PHONY: mount
