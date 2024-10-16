@@ -49,7 +49,7 @@ SOURCES += $(JELLY_RTL_SOURCES)
 export SOURCES
 
 # IP cores
-IP_CORES = $(PRJ_DIR)/kv260/ip/vivado$(VIVADO_VERSION)/exponential_fp32.xci
+IP_CORES = ../../ip/vivado$(VIVADO_VERSION)/exponential_fp32/exponential_fp32.xci
 export IP_CORES
 
 # block design
@@ -78,7 +78,7 @@ build: $(BIT_FILE) check_log
 
 .PHONY : bit_scp
 bit_scp: $(BIT_FILE)
-	scp $(BIT_FILE) $(BOARD_ADDRESS):$(BOARD_WORK_DIR)/projects/eval_dram_to_dram/eval_exp_fp32_128/kv260/app/
+	scp $(BIT_FILE) $(BOARD_ADDRESS):$(BOARD_WORK_DIR)/projects/eval_dma_calc/eval_exp_fp32_128/kv260/app/
 
 .PHONY : bit_cp
 bit_cp: $(BIT_FILE)
@@ -89,8 +89,8 @@ $(BIT_FILE): $(SOURCES) $(CONSTRAINS) $(IP_CORES) $(BD_SCRIPTS)
 	vivado -m64 -mode batch -source $(JELLY_TOP_DIR)/scripts/vivado_create_project.tcl | tee vivado_create_project.log
 	vivado -m64 -mode batch -source $(JELLY_TOP_DIR)/scripts/vivado_implementation.tcl | tee vivado_implementation.log
 
-.PHONY : make_csv
-make_csv:
+.PHONY : report_csv
+report_csv:
 	$(JELLY_TOP_DIR)/scripts/vivado_utilization_rpt_to_csv.py $(PRJ_NAME).runs/synth_1/$(TOP_MODULE)_utilization_synth.rpt utilization_synth.csv
 	$(JELLY_TOP_DIR)/scripts/vivado_utilization_rpt_to_csv.py $(PRJ_NAME).runs/impl_1/$(TOP_MODULE)_utilization_placed.rpt utilization_placed.csv
 	$(JELLY_TOP_DIR)/scripts/vivado_timing_rpt_to_csv.py summary       $(PRJ_NAME).runs/impl_1/$(TOP_MODULE)_timing_summary_routed.rpt timing_clock_summary.csv
