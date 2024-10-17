@@ -17,21 +17,32 @@ defmodule NxNif do
   end
 
   def calc(n) do
+    # 乱数生成
     key = Nx.Random.key(123)
     {x, _} = Nx.Random.uniform(key, 0.5, 1.5, shape: {n}, names: [:x], type: {:f, 32})
 
+    # CPU で計算
     start_time = System.monotonic_time()
-    y = Nx.exp(x)
+    y_cpu = Nx.exp(x)
     end_time = System.monotonic_time()
     duration = System.convert_time_unit(end_time - start_time, :native, :millisecond)
-    IO.puts("CPU 計算時間: #{duration} ms")
-    IO.inspect(y)
+    IO.puts("CPU 計算時間  : #{duration} ms")
+#   IO.inspect(y_cpu)
 
+    # FPGA で計算
     start_time = System.monotonic_time()
-    y = FpgaExp.fpga_exp(x)
+    y_fpga = FpgaExp.fpga_exp(x)
     end_time = System.monotonic_time()
     duration = System.convert_time_unit(end_time - start_time, :native, :millisecond)
-    IO.puts("FPGA 計算時間: #{duration} ms")
-    IO.inspect(y)
+    IO.puts("FPGA 計算時間 : #{duration} ms")
+#   IO.inspect(y_fpga)
+
+    # 結果検証
+    diff =
+      Nx.subtract(y_cpu, y_fpga)
+      |> Nx.abs()
+      |> Nx.reduce_max()
+      |> Nx.to_number()
+    IO.puts("最大誤差：#{diff}")
   end
 end
