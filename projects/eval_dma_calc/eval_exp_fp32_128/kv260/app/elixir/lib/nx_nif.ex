@@ -25,16 +25,16 @@ defmodule NxNif do
     start_time = System.monotonic_time()
     y_cpu = Nx.exp(x)
     end_time = System.monotonic_time()
-    duration = System.convert_time_unit(end_time - start_time, :native, :millisecond)
-    IO.puts("CPU 計算時間  : #{duration} ms")
+    duration = System.convert_time_unit(end_time - start_time, :native, :microsecond)
+    IO.puts("CPU 計算時間  : #{duration} us")
 #   IO.inspect(y_cpu)
 
     # FPGA で計算
     start_time = System.monotonic_time()
     y_fpga = FpgaExp.fpga_exp(x)
     end_time = System.monotonic_time()
-    duration = System.convert_time_unit(end_time - start_time, :native, :millisecond)
-    IO.puts("FPGA 計算時間 : #{duration} ms")
+    duration = System.convert_time_unit(end_time - start_time, :native, :microsecond)
+    IO.puts("FPGA 計算時間 : #{duration} us")
 #   IO.inspect(y_fpga)
 
     # 結果検証
