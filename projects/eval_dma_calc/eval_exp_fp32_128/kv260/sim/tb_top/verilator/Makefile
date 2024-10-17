@@ -7,6 +7,7 @@ JELLY_TOP_DIR = ../../../../../../../packages/jelly
 
 -include $(JELLY_TOP_DIR)/include/make/def_simulation.inc
 
+SIM_LIB_DIRS += ../../stub
 SIM_LIB_DIRS += ../../../rtl
 SIM_LIB_DIRS += ../../../../rtl
 
@@ -27,8 +28,7 @@ FLAGS += $(addprefix -y ,$(SIM_LIB_DIRS))
 
 SRCS  = ../$(TOP_MODULE).sv
 SRCS += ../tb_main.sv
-SRCS += ../../stub/design1.v
-SRCS += ../../stub/mul_s8s8_lo8_p3.v
+SRCS += ../../stub/design_1.v
 
 # rulres
 all: build run

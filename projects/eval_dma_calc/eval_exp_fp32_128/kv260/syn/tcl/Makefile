@@ -110,6 +110,7 @@ check_log:
 .PHONY : clean
 clean:
 	-rm -fr .Xil
+	-rm -fr bd/
 	-rm -fr $(PRJ_NAME).cache
 	-rm -fr $(PRJ_NAME).hw
 	-rm -fr $(PRJ_NAME).ip_user_files

@@ -65,8 +65,8 @@ module eval_exp_fp32_128_main
             (
                 .fan_en                 ,
 
-                .m_axi4l_peri_aresetn   (axi4l_peri.aresetn ),
-                .m_axi4l_peri_aclk      (axi4l_peri.aclk    ),
+                .m_axi4l_peri_aresetn   (axi4l_peri_aresetn ),
+                .m_axi4l_peri_aclk      (axi4l_peri_aclk    ),
                 .m_axi4l_peri_araddr    (axi4l_peri.araddr  ),
                 .m_axi4l_peri_arprot    (axi4l_peri.arprot  ),
                 .m_axi4l_peri_arready   (axi4l_peri.arready ),
@@ -87,8 +87,8 @@ module eval_exp_fp32_128_main
                 .m_axi4l_peri_wstrb     (axi4l_peri.wstrb   ),
                 .m_axi4l_peri_wvalid    (axi4l_peri.wvalid  ),
                 
-                .s_axi4_mem_aresetn     (axi4_mem.aresetn   ),
-                .s_axi4_mem_aclk        (axi4_mem.aclk      ),
+                .s_axi4_mem_aresetn     (axi4_mem_aresetn   ),
+                .s_axi4_mem_aclk        (axi4_mem_aclk      ),
                 .s_axi4_mem_araddr      (axi4_mem.araddr    ),
                 .s_axi4_mem_arburst     (axi4_mem.arburst   ),
                 .s_axi4_mem_arcache     (axi4_mem.arcache   ),
