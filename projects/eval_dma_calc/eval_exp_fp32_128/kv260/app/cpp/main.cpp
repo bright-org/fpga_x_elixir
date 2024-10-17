@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <cstdint>
 #include <random>
@@ -15,7 +16,7 @@ const int MAX_N = 1*1024*1024;
 
 int main(int argc, char *argv[])
 {
-    std::cout << "--- test start ---" << std::endl;
+    std::cout << "--- start ---" << std::endl;
 
     // ドライバオープン
     int fd = open("/dev/fpga-dmacalc0", O_RDWR);
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
             auto dur = end - start;
             auto usec = std::chrono::duration_cast<std::chrono::microseconds>(dur).count();
             // 表示
-            std::cout << "size : " << N << "  CPU  : " << usec << " us";
+            std::cout << "size : " << std::setw(8) << N << "  CPU  : " << std::setw(8) << usec << " us";
             ofs << N << "," << usec;
         }
 
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
             auto dur = end - start;
             auto usec = std::chrono::duration_cast<std::chrono::microseconds>(dur).count();
             // 表示
-            std::cout << "  FPGA : " << usec << " us" << std::endl;
+            std::cout << "  FPGA : " << std::setw(8) << usec << " us" << std::endl;
             ofs << "," << usec << std::endl;
         }
 
@@ -113,7 +114,7 @@ int main(int argc, char *argv[])
     // ドライバクローズ
     close(fd);
 
-    std::cout << "--- devdrv test end ---" << std::endl;
+    std::cout << "--- end ---" << std::endl;
 
     return 0;
 }
