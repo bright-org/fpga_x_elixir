@@ -19,7 +19,7 @@ defmodule NxNif do
   def calc(n) do
     # 乱数生成
     key = Nx.Random.key(123)
-    {x, _} = Nx.Random.uniform(key, 0.5, 1.5, shape: {n}, names: [:x], type: {:f, 32})
+    {x, _} = Nx.Random.normal(key, shape: {n}, names: [:x], type: {:f, 32})
 
     # CPU で計算
     start_time = System.monotonic_time()

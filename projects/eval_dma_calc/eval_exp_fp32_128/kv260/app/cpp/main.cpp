@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     // 0.5～1.5 の範囲の乱数で src を初期化
     std::mt19937 engine(123);
-    std::uniform_real_distribution<float> dist(0.5, 1.5);
+    std::normal_distribution<float> dist(0.0, 1.0);
 
     // テキストファイルを開く
     std::ofstream ofs("result.csv");
