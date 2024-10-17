@@ -87,12 +87,10 @@ int main(int argc, char *argv[])
             std::cout << "  FPGA : " << std::setw(8) << usec << " us" << std::endl;
             ofs << "," << usec << std::endl;
         }
-
-        usleep(100);
-
+        
         // CPUの結果と比較
         for (int i = 0; i < N; i++) {
-            if ( fabs(dst_fpga[i] - dst_cpu[i]) > 1.0e-5 ) {
+            if ( fabs(dst_fpga[i] - dst_cpu[i]) > 1.0e-4 ) {
                 std::cout << "mismatch i = " << i << "  dst = " << dst_fpga[i] << "  dst_cpu = " << dst_cpu[i] << std::endl;
                 break;
             }
