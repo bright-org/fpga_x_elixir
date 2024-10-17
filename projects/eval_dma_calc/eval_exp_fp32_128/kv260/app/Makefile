@@ -23,9 +23,17 @@ all: $(DTBO_FILE) $(BIN_FILE) build_driver
 clean:
 	rm -rf $(DTBO_FILE) $(BIN_FILE)
 
+.PHONY: run_elixir
+run_elixir: load load_driver
+	cd elixir && iex -S mix
+
 .PHONY: run_cpp
-run_cpp:
+run_cpp: load load_driver
 	make -C cpp run
+
+.PHONY: run_rust
+run_rust: load load_driver
+	cd rust && cargo run --release
 
 
 $(DTBO_FILE): $(DTS_FILE)
