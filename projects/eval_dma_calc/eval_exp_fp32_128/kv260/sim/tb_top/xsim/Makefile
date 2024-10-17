@@ -1,4 +1,10 @@
 
+# get vivado version
+empty:=
+space:= $(empty) $(empty)
+VIVADO_VERSIONS := $(subst .,$(space),$(subst v,,$(word 2,$(shell vivado -version))))
+VIVADO_VERSION  := $(word 1,$(VIVADO_VERSIONS)).$(word 2,$(VIVADO_VERSIONS))
+XILINX_VIVADO ?= /tools/Xilinx/Vivado/$(VIVADO_VERSION)
 
 # setting
 TOP_MODULE = tb_sim
@@ -6,6 +12,8 @@ TOP_MODULE = tb_sim
 JELLY_TOP_DIR = ../../../../../../../packages/jelly
 
 -include $(JELLY_TOP_DIR)/include/make/def_simulation.inc
+
+EXP_IP_DIR = ../../../ip/vivado$(VIVADO_VERSION)/exponential_fp32/exponential_fp32
 
 SIM_LIB_DIRS += ../../stub
 SIM_LIB_DIRS += ../../../rtl
@@ -21,6 +29,8 @@ ELABFLAGS  = -debug wave
 SRCS  = ../$(TOP_MODULE).sv
 SRCS += ../tb_main.sv
 SRCS += ../../stub/design_1.v
+SRCS += $(EXP_IP_DIR)/sim/exponential_fp32.v 
+SRCS += $(XILINX_VIVADO)/data/verilog/src/glbl.v
 
 
 # rulres
@@ -29,8 +39,10 @@ all: clean build run
 
 .PHONY: build
 build:
+	xvlog $(EXP_IP_DIR)/hdl/*.v
+	xvhdl $(EXP_IP_DIR)/hdl/*.vhd
 	xvlog $(VLOGFLAGS) $(SRCS)
-	xelab $(ELABFLAGS) $(TOP_MODULE) -s $(TOP_MODULE)
+	xelab $(ELABFLAGS) $(TOP_MODULE) glbl -s $(TOP_MODULE) -L unisims_ver -L unimacro_ver -L secureip -L xil_defaultlib
 
 .PHONY: run
 run:

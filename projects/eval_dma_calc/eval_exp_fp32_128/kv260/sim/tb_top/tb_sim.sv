@@ -54,6 +54,8 @@ module tb_sim();
                 .reset                  (reset              ),
                 .clk                    (clk333             ),
 
+                .s_axi4l_peri_aresetn   (                   ),
+                .s_axi4l_peri_aclk      (                   ),
                 .s_axi4l_peri_awaddr    (axi4l_peri.awaddr  ),
                 .s_axi4l_peri_awprot    (axi4l_peri.awprot  ),
                 .s_axi4l_peri_awvalid   (axi4l_peri.awvalid ),
